@@ -42,6 +42,7 @@ const paths: Record<string, React.ReactNode> = {
   building:    <><rect x="3" y="3" width="10" height="11" rx=".5"/><path d="M6 6h1M9 6h1M6 9h1M9 9h1M6 12h4"/></>,
   edit:        <><path d="M11 2l3 3-9 9H2v-3z"/><path d="M9 4l3 3"/></>,
   trash:       <><path d="M3 5h10M5 5V3h6v2"/><rect x="4" y="5" width="8" height="9" rx="1"/><path d="M7 8v4M9 8v4"/></>,
+  menu:        <><path d="M2 4h12M2 8h12M2 12h12"/></>,
 }
 
 export default function Icon({ name, size = 16, className = '' }: IconProps) {

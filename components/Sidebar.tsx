@@ -9,6 +9,8 @@ interface Props {
   onNewClient: () => void
   clientCount: number
   technicien?: { nom: string; initiales: string; secteur: string }
+  mobileOpen?: boolean
+  onMobileClose?: () => void
 }
 
 const NAV = [
@@ -19,7 +21,7 @@ const NAV = [
   { id: 'insights',  label: 'Analyses',          icon: 'chart' },
 ]
 
-export default function Sidebar({ view, setView, onNewClient, clientCount, technicien }: Props) {
+export default function Sidebar({ view, setView, onNewClient, clientCount, technicien, mobileOpen, onMobileClose }: Props) {
   const router = useRouter()
   const [showPwChange, setShowPwChange] = useState(false)
   const [curPw, setCurPw] = useState('')
@@ -47,8 +49,15 @@ export default function Sidebar({ view, setView, onNewClient, clientCount, techn
     else setPwMsg(data.error ?? 'Erreur')
   }
 
+  const handleNavClick = (id: string) => {
+    setView(id)
+    onMobileClose?.()
+  }
+
   return (
-    <aside className="sidebar">
+    <>
+      {mobileOpen && <div className="sidebar-backdrop" onClick={onMobileClose} />}
+      <aside className={`sidebar${mobileOpen ? ' open' : ''}`}>
       <div className="sb-brand">
         <div className="sb-brand-mark">
           <img src="/logo-acepi.png" alt="ACEPI" onError={(e) => { (e.target as HTMLImageElement).style.display='none' }} />
@@ -65,7 +74,7 @@ export default function Sidebar({ view, setView, onNewClient, clientCount, techn
           <div
             key={n.id}
             className={`sb-item ${activeView === n.id ? 'active' : ''}`}
-            onClick={() => setView(n.id)}
+            onClick={() => handleNavClick(n.id)}
           >
             <Icon name={n.icon} className="sb-icon" />
             <span>{n.label}</span>
@@ -89,7 +98,7 @@ export default function Sidebar({ view, setView, onNewClient, clientCount, techn
         <div className="sb-item">
           <Icon name="bell" className="sb-icon" /><span>Rappels</span>
         </div>
-        <div className={`sb-item ${view === 'settings' ? 'active' : ''}`} onClick={() => setView('settings')}>
+        <div className={`sb-item ${view === 'settings' ? 'active' : ''}`} onClick={() => handleNavClick('settings')}>
           <Icon name="settings" className="sb-icon" /><span>Paramètres</span>
         </div>
       </nav>
@@ -141,6 +150,7 @@ export default function Sidebar({ view, setView, onNewClient, clientCount, techn
           </div>
         )}
       </div>
-    </aside>
+      </aside>
+    </>
   )
 }

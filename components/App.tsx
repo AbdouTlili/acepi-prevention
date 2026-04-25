@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState, useCallback } from 'react'
 import Sidebar from './Sidebar'
+import Icon from './Icon'
 import Dashboard from './Dashboard'
 import ClientList from './ClientList'
 import ClientDetail from './ClientDetail'
@@ -31,6 +32,7 @@ export default function App() {
   const [newClientOpen, setNewClientOpen] = useState(false)
   const [importOpen, setImportOpen] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const fetchClients = useCallback(async () => {
     const res = await fetch('/api/clients')
@@ -99,12 +101,22 @@ export default function App() {
 
   return (
     <div className="app">
+      <button
+        className="mobile-menu-btn"
+        onClick={() => setSidebarOpen(true)}
+        aria-label="Menu"
+      >
+        <Icon name="menu" size={20} />
+      </button>
+
       <Sidebar
         view={view}
         setView={handleNavigation}
-        onNewClient={() => setNewClientOpen(true)}
+        onNewClient={() => { setNewClientOpen(true); setSidebarOpen(false) }}
         clientCount={clients.length}
         technicien={store.techniciens[0]}
+        mobileOpen={sidebarOpen}
+        onMobileClose={() => setSidebarOpen(false)}
       />
 
       <div className="main">

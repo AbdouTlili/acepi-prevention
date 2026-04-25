@@ -35,7 +35,7 @@ function LoginForm() {
       minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
       background: 'var(--paper)', fontFamily: 'var(--ff-ui)',
     }}>
-      <div style={{ width: 380 }}>
+      <div style={{ maxWidth: 380, width: '100%', padding: '0 20px' }}>
         {/* Brand */}
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
           <div style={{

@@ -360,3 +360,132 @@ textarea.input { min-height: 72px; resize: vertical; font-family: var(--ff-ui); 
 /* ── Import modal ──────────────────────────────────────────── */
 .import-zone { border: 2px dashed var(--ink-300); border-radius: 8px; padding: 40px; text-align: center; cursor: pointer; transition: all 150ms; }
 .import-zone:hover, .import-zone.drag { border-color: var(--navy-600); background: var(--navy-50); }
+
+/* ── Mobile hamburger button (hidden on desktop) ───────────── */
+.mobile-menu-btn {
+  display: none;
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 300;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--navy-900);
+  color: #fff;
+  border: 0;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+}
+
+/* ── Sidebar backdrop (mobile only) ────────────────────────── */
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,26,48,0.55);
+  z-index: 149;
+}
+
+/* ── Mobile responsive ─────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Show hamburger */
+  .mobile-menu-btn { display: flex; }
+
+  /* App becomes single-column */
+  .app { grid-template-columns: 1fr; }
+
+  /* Sidebar slides in as overlay */
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: 260px;
+    z-index: 150;
+    transform: translateX(-100%);
+    transition: transform 240ms ease;
+    height: 100%;
+  }
+  .sidebar.open { transform: translateX(0); }
+
+  /* Topbar: tighter padding, leave room for hamburger */
+  .topbar { padding: 10px 14px 10px 60px; }
+  .topbar h1 { font-size: 15px; }
+
+  /* Hide search bar on mobile */
+  .search { display: none; }
+
+  /* Main content area padding */
+  .content { padding: 16px 14px; }
+
+  /* KPI grid: 2 columns */
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+  /* Dashboard grid: single column */
+  .dash-grid { grid-template-columns: 1fr; }
+
+  /* Client table → card layout */
+  .tbl thead { display: none; }
+  .tbl, .tbl tbody, .tbl tr, .tbl td { display: block; width: 100%; }
+  .tbl tbody tr {
+    border: 1px solid var(--ink-100);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    padding: 12px 14px;
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+  }
+  .tbl td {
+    padding: 3px 0;
+    border-bottom: 0;
+  }
+  /* Hide less important columns on mobile */
+  .tbl td:nth-child(n+5) { display: none; }
+  .tbl .c-name { font-size: 14px; }
+
+  /* Client detail: single column */
+  .detail-hd { grid-template-columns: 1fr; gap: 12px; }
+  .detail-hd h2 { font-size: 18px; }
+  .detail-grid { grid-template-columns: 1fr; }
+  .detail-grid.wide { grid-template-columns: 1fr; }
+
+  /* Equipment grid: 2 columns */
+  .equip-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Report: single column, hide PDF preview */
+  .report-layout { grid-template-columns: 1fr; }
+  .pdf-preview { display: none; }
+
+  /* Calendar layout: single column */
+  .cal-layout { grid-template-columns: 1fr; }
+  .cal-cell { min-height: 60px; }
+
+  /* Insights: single column */
+  .insights-grid { grid-template-columns: 1fr; }
+
+  /* Settings: single column */
+  .settings-layout { grid-template-columns: 1fr; }
+
+  /* Modal: full-screen on mobile */
+  .modal-backdrop { align-items: flex-end; padding: 0; }
+  .modal {
+    border-radius: 16px 16px 0 0;
+    max-height: 92vh;
+    width: 100%;
+  }
+
+  /* Touch targets ≥ 44px */
+  .sb-item { min-height: 44px; }
+  .btn { min-height: 44px; padding: 10px 14px; }
+  .btn.sm { min-height: 36px; }
+
+  /* Prevent iOS input zoom (font-size must be ≥ 16px) */
+  .input, .select, textarea.input, input[type="text"], input[type="password"], input[type="email"] {
+    font-size: 16px !important;
+  }
+
+  /* Upcoming list: simpler grid */
+  .up-row { grid-template-columns: 44px 1fr; gap: 10px; }
+  .up-row > :nth-child(3),
+  .up-row > :nth-child(4) { display: none; }
+}
