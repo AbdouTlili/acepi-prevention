@@ -1,10 +1,3 @@
-const { execSync } = require('child_process')
-
-let GIT_COMMIT = 'dev'
-try {
-  GIT_COMMIT = execSync('git rev-parse --short HEAD').toString().trim()
-} catch {}
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
@@ -12,7 +5,7 @@ const nextConfig = {
     serverComponentsExternalPackages: ['@prisma/client', 'prisma'],
   },
   env: {
-    NEXT_PUBLIC_APP_VERSION: GIT_COMMIT,
+    NEXT_PUBLIC_APP_VERSION: process.env.NEXT_PUBLIC_APP_VERSION || 'dev',
   },
 }
 

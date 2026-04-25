@@ -1,0 +1,15 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - build
+      - --build-arg
+      - GIT_COMMIT=$SHORT_SHA
+      - -t
+      - europe-west1-docker.pkg.dev/acepi-prevention/acepi/app:$SHORT_SHA
+      - .
+
+images:
+  - europe-west1-docker.pkg.dev/acepi-prevention/acepi/app:$SHORT_SHA
+
+options:
+  logging: CLOUD_LOGGING_ONLY

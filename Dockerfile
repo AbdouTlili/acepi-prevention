@@ -9,6 +9,8 @@ RUN npm ci
 
 # --- builder ---
 FROM base AS builder
+ARG GIT_COMMIT=dev
+ENV NEXT_PUBLIC_APP_VERSION=$GIT_COMMIT
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
