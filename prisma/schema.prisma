@@ -1,0 +1,63 @@
+// GCP migration: change provider to "postgresql" and update DATABASE_URL in .env
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  id                  Int      @id @default(autoincrement())
+  refClient           String   @unique
+  typePrestation      String   @default("")  // comma-separated: "EXTINCTION,SSI"
+  nomSociete          String
+  contactNom          String   @default("")
+  contactTitre        String   @default("")
+  telephone           String   @default("")
+  email               String   @default("")
+  adresse             String   @default("")
+  ville               String   @default("")
+  departement         String   @default("67")
+  codePostal          String   @default("")
+  nbrEp6              Int      @default(0)
+  nbrCo2              Int      @default(0)
+  nbrPoudre           Int      @default(0)
+  nbrRia              Int      @default(0)
+  nbrAlarmeT4         Int      @default(0)
+  nbrSsi              Int      @default(0)
+  desenfumage         Int      @default(0)
+  observations        String   @default("")
+  moisIntervention    Int      @default(1)
+  anneeDerniere       Int      @default(2025)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  visits              Visit[]
+}
+
+model Visit {
+  id          Int      @id @default(autoincrement())
+  clientId    Int
+  client      Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  dateVisite  String
+  technicien  String   @default("")
+  travauxJson String   @default("[]")  // JSON array
+  notes       String   @default("")
+  createdAt   DateTime @default(now())
+}
+
+// Stores mutable platform configuration as JSON blobs keyed by name
+model Setting {
+  key   String @id
+  value String  // JSON string
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  passwordHash String
+  displayName  String   @default("")
+  createdAt    DateTime @default(now())
+}
