@@ -64,7 +64,7 @@ export default function Sidebar({ view, setView, onNewClient, clientCount, techn
         </div>
         <div className="sb-brand-text">
           <div className="sb-brand-title">ACEPI Prévention</div>
-          <div className="sb-brand-sub">Maintenance · v2.4</div>
+          <div className="sb-brand-sub">Maintenance · v2.4 · {process.env.NEXT_PUBLIC_APP_VERSION}</div>
         </div>
       </div>
 
